@@ -173,11 +173,25 @@ function goPage(id){
 
 /* ===== YES CLICK ===== */
 function yesClick(){
-  const music=document.getElementById("bgMusic");
-  music.currentTime=19;
-  music.play();
   goPage('giftPage');
+
+  const music = document.getElementById("bgMusic");
+  music.pause(); // reset
+  music.currentTime = 0; // reset time
+
+  music.addEventListener("loadedmetadata", () => {
+    try {
+      music.currentTime = 19; // start at 00:19
+    } catch(e) {
+      console.warn("Could not set currentTime directly", e);
+    }
+    music.play();
+  }, { once: true });
+
+  // Try to load the audio if it hasn't started already
+  music.load();
 }
+
 
 /* ===== HEARTS ===== */
 for(let i=0;i<40;i++){
@@ -239,3 +253,4 @@ function openGift3(){
 
 </body>
 </html>
+
