@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  height:100vh;
+  background:linear-gradient(135deg,#ffd1e8,#ff9acb);
+  font-family:'Poppins',sans-serif;
+  overflow:hidden;
+}
+
+/* ===== HEART FLOW ===== */
+#heartLayer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+}
+
+.heart{
+  position:absolute;
+  font-size:22px;
+  animation:float 6s linear infinite;
+}
+
+@keyframes float{
+  from{transform:translateY(110vh);opacity:1}
+  to{transform:translateY(-10vh);opacity:0}
+}
+
+/* ===== PAGES ===== */
+.page{
+  position:absolute;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  z-index:2;
+}
+
+.page.active{display:flex}
+
+/* ===== TEXT ===== */
+h1{
+  font-family:'Pacifico',cursive;
+  font-size:44px;
+  color:#c7004c;
+  margin-bottom:15px;
+}
+
+p{
+  font-size:20px;
+  color:#a6003a;
+  margin-bottom:25px;
+}
+
+/* ===== BUTTONS ===== */
+button{
+  padding:14px 36px;
+  border:none;
+  border-radius:40px;
+  background:linear-gradient(135deg,#ff2f75,#ff6fa5);
+  color:white;
+  font-size:16px;
+  margin:10px;
+  cursor:pointer;
+}
+
+/* ===== GIFT 1 NOTES ===== */
+.note{
+  position:absolute;
+  background:white;
+  padding:12px 18px;
+  border-radius:14px;
+  font-size:16px;
+  color:#c7004c;
+  box-shadow:0 8px 20px rgba(0,0,0,.15);
+  animation:pop 0.8s ease forwards;
+}
+
+@keyframes pop{
+  from{opacity:0;transform:scale(.6)}
+  to{opacity:1;transform:scale(1)}
+}
+
+/* ===== TEDDY ===== */
+.teddy{
+  font-size:220px;
+  animation:bounce 2s infinite;
+}
+
+@keyframes bounce{
+  50%{transform:translateY(-12px)}
+}
+
+/* ===== LOVE RAIN ===== */
+.love{
+  position:absolute;
+  font-size:22px;
+  color:#d6005c;
+  animation:fall 4s linear forwards;
+}
+
+@keyframes fall{
+  from{opacity:1}
+  to{opacity:0;transform:translateY(120vh)}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" src="romantic.mp3"></audio>
+
+<div id="heartLayer"></div>
+
+<!-- PAGE 1 -->
+<div id="page1" class="page active">
+  <h1>Hey there 💕</h1>
+  <p>Will you be my Valentine?</p>
+  <button onclick="yesClick()">Yes 💖</button>
+  <button onclick="goPage('noPage')">No 😢</button>
+</div>
+
+<!-- NO PAGE -->
+<div id="noPage" class="page">
+  <h1>Please think once again 🥺</h1>
+  <button onclick="goPage('page1')">Okay 💕</button>
+</div>
+
+<!-- GIFTS -->
+<div id="giftPage" class="page">
+  <h1>Yay! You said YES 💞</h1>
+  <p>I made all these for you</p>
+  <button onclick="openGift1()">🎁 Gift 1</button>
+  <button onclick="goPage('gift2')">🧸 Gift 2</button>
+  <button onclick="openGift3()">❤️ Gift 3</button>
+</div>
+
+<!-- GIFT 1 -->
+<div id="gift1" class="page">
+  <h1>Messages for You 💌</h1>
+</div>
+
+<!-- GIFT 2 -->
+<div id="gift2" class="page">
+  <div class="teddy">🧸</div>
+  <p><b>Be my forever ♾️💍</b></p>
+  <button onclick="goPage('giftPage')">⬅ Back</button>
+</div>
+
+<!-- GIFT 3 -->
+<div id="gift3" class="page">
+  <h1>I LOVE YOU ❤️</h1>
+  <button onclick="goPage('page1')">⬅ Go to First Page</button>
+</div>
+
+<script>
+/* ===== NAVIGATION ===== */
+function goPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* ===== YES CLICK ===== */
+function yesClick(){
+  const music=document.getElementById("bgMusic");
+  music.currentTime=19;
+  music.play();
+  goPage('giftPage');
+}
+
+/* ===== HEARTS ===== */
+for(let i=0;i<40;i++){
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerText="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=4+Math.random()*4+"s";
+  document.getElementById("heartLayer").appendChild(h);
+}
+
+/* ===== GIFT 1 ===== */
+function openGift1(){
+  goPage('gift1');
+  const msgs=[
+    "You are my favorite thought 💖","I smile because of you 😊",
+    "You make my heart happy ❤️","Forever starts with you ♾️",
+    "You are my safe place 🫶","Love looks like you 💕",
+    "You are my magic ✨","My heart chose you 💘",
+    "Every moment is better with you 🌸",
+    "You feel like home 🏡","I adore you endlessly 💞",
+    "You are my always 💍"
+  ];
+  let i=0;
+  const interval=setInterval(()=>{
+    if(i>=msgs.length){
+      clearInterval(interval);
+      const btn=document.createElement("button");
+      btn.innerText="⬅ Back to Gifts";
+      btn.onclick=()=>goPage('giftPage');
+      document.getElementById("gift1").appendChild(btn);
+      return;
+    }
+    const n=document.createElement("div");
+    n.className="note";
+    n.innerText=msgs[i++];
+    n.style.left=Math.random()*70+15+"%";
+    n.style.top=Math.random()*60+15+"%";
+    document.getElementById("gift1").appendChild(n);
+  },1200);
+}
+
+/* ===== GIFT 3 ===== */
+function openGift3(){
+  goPage('gift3');
+  for(let i=0;i<120;i++){
+    setTimeout(()=>{
+      const l=document.createElement("div");
+      l.className="love";
+      l.innerText="I LOVE YOU ❤️";
+      l.style.left=Math.random()*100+"vw";
+      l.style.top="-30px";
+      document.body.appendChild(l);
+      setTimeout(()=>l.remove(),4000);
+    },i*80);
+  }
+}
+</script>
+
+</body>
+</html>
